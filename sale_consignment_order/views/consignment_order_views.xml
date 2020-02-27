@@ -29,12 +29,12 @@
           <field name="arch" type="xml">
               <form>
                   <header>
-                      <button name="action_confirm" type="object" string="Confirm" attrs="{'invisible':[('state','!=','draft')]}"/>
-                      <button name="action_approve" type="object" string="Approved" attrs="{'invisible':[('state','!=','confirm')]}"/>
-                      <button name="action_open" type="object" string="Process" attrs="{'invisible':[('state','!=','approve')]}"/>
-                      <button name="action_done" type="object" string="Finish" attrs="{'invisible':[('state','!=','open')]}"/>
-                      <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible':[('state','not in',['draft','confirm','approve','open','done'])]}"/>
-                      <button name="action_restart" type="object" string="Set to Draft" attrs="{'invisible':[('state','!=','cancel')]}"/>
+                      <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('confirm_ok','=',False)]}" confirm="Confirm data. Are you sure?"/>
+                      <button name="action_approve" type="object" string="Approved" class="oe_highlight" attrs="{'invisible':['|',('state','!=','confirm'),('approve_ok','=',False)]}" confirm="Approve data. Are you sure?"/>
+                      <button name="action_open" type="object" string="Process" class="oe_highlight" attrs="{'invisible':['|',('state','!=','approve'),('open_ok','=',False)]}" confirm="Open data. Are you sure?"/>
+                      <button name="action_done" type="object" string="Finish" class="oe_highlight" attrs="{'invisible':['|',('state','!=','open'),('done_ok','=',False)]}" confirm="Finish data. Are you sure?"/>
+                      <button name="action_cancel" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible':['|',('state','=','cancel'),('cancel_ok','=',False)]}" confirm="Cancel data. Are you sure?"/>
+                      <button name="action_restart" type="object" string="Set to Draft" class="oe_highlight" attrs="{'invisible':['|',('state','!=','cancel'),('restart_ok','=',False)]}" confirm="Restart data. Are you sure?"/>
                       <field name="state" string="State" widget="statusbar" statusbar_visible="draft,confirm,approve,open,done"/>
                   </header>
                   <sheet>
@@ -111,7 +111,6 @@
                                   <field name="restart_user_id" nolabel="1"/>
                               </group>
                           </page>
-                          <!--
                           <page name="policy" string="Policy" groups="base.group_system">
                               <group name="policy_1" colspan="4" col="2">
                                   <field name="confirm_ok"/>
@@ -122,7 +121,6 @@
                                   <field name="restart_ok"/>
                               </group>
                           </page>
-                          -->
                       </notebook>
                   </sheet>
                   <!-- open chatter  -->
