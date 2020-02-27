@@ -15,6 +15,8 @@
     ],
     "data": [
         "menu.xml",
+        "data/ir_sequence_data.xml",
+        "data/base_sequence_configurator_data.xml",
         "views/consignment_type_views.xml",
         "views/consignment_order_views.xml",
         "views/res_partner_views.xml",
