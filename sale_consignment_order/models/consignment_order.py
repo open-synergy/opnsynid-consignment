@@ -10,10 +10,10 @@ class ConsignmentOrder(models.Model):
     _name = "consignment.order"
     _description = "Consignment Order"
     _inherit = [
-        "mail.thread",
+       "mail.thread",
        "base.sequence_document",
        "base.workflow_policy_object",
-#        "base.cancel.reason_common",
+       "base.cancel.reason_common",
     ]
 
     # membuat nilai default untuk yang bersifat tdk konstan
