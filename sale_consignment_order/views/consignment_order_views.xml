@@ -35,6 +35,7 @@
                       <button name="action_done" type="object" string="Finish" class="oe_highlight" attrs="{'invisible':['|',('state','!=','open'),('done_ok','=',False)]}" confirm="Finish data. Are you sure?"/>
                       <button name="%(base_cancel_reason.base_cancel_reason_wizard_action)d" type="action" string="Cancel" attrs="{'invisible':['|',('state','=','cancel'),('cancel_ok','=',False)]}" confirm="Cancel Data. Are you sure?"/>
                       <button name="action_restart" type="object" string="Set to Draft" class="oe_highlight" attrs="{'invisible':['|',('state','!=','cancel'),('restart_ok','=',False)]}" confirm="Restart data. Are you sure?"/>
+                      <button name="%(base_print_policy.base_print_document_action)d" string="Print" type="action" icon="gtk-print"/>
                       <field name="state" string="State" widget="statusbar" statusbar_visible="draft,confirm,approve,open,done"/>
                   </header>
                   <sheet>

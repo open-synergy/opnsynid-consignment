@@ -14,6 +14,7 @@
         "base_sequence_configurator",
         "base_workflow_policy",
         "base_cancel_reason",
+        "base_print_policy",
     ],
     "data": [
         "menu.xml",
