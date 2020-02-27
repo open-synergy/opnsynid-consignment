@@ -46,6 +46,16 @@
                 <page name="description" string="Description">
                   <field name="description"/>
                 </page>
+                <page name="workflow_policy" string="Workflow Policy">
+                  <group name="grp_workflow_policy" colspan="4" col="2">
+                    <field name="consignment_confirm_grp_ids" widget="many2many_tags"/>
+                    <field name="consignment_approve_grp_ids" widget="many2many_tags"/>
+                    <field name="consignment_open_grp_ids" widget="many2many_tags"/>
+                    <field name="consignment_cancel_grp_ids" widget="many2many_tags"/>
+                    <field name="consignment_done_grp_ids" widget="many2many_tags"/>
+                    <field name="consignment_restart_grp_ids" widget="many2many_tags"/>
+                  </group>
+                </page>
               </notebook>
             </sheet>
             <div class="oe_chatter">

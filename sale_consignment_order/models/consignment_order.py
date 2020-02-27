@@ -6,13 +6,13 @@ from openerp import models, fields, api
 from openerp.exceptions import Warning as UserError
 # import odoo.addons.decimal_precision as dp
 
-class ConsingnemtOrder(models.Model):
+class ConsignmentOrder(models.Model):
     _name = "consignment.order"
     _description = "Consignment Order"
     _inherit = [
         "mail.thread",
        "base.sequence_document",
-#        "base.workflow_policy_object",
+       "base.workflow_policy_object",
 #        "base.cancel.reason_common",
     ]
 
@@ -39,6 +39,11 @@ class ConsingnemtOrder(models.Model):
             document.amount_total = amount_total
             document.amount_tax = amount_tax
             document.amount_untaxed = amount_untaxed
+
+    @api.multi
+    def _compute_policy(self):
+        _super = super(ConsignmentOrder, self)
+        _super._compute_policy()
 
     name = fields.Char(
         string="Consignmet Order",
@@ -164,6 +169,34 @@ class ConsingnemtOrder(models.Model):
             ],
         },
     )
+
+    # Policy Fields
+    confirm_ok = fields.Boolean(
+        string="Can Confirm",
+        compute="_compute_policy"
+    )
+    approve_ok = fields.Boolean(
+        string="Can Approve",
+        compute="_compute_policy"
+    )
+    open_ok = fields.Boolean(
+        string="Can Open",
+        compute="_compute_policy"
+    )
+    cancel_ok = fields.Boolean(
+        string="Can Cancel",
+        compute="_compute_policy"
+    )
+    done_ok = fields.Boolean(
+        string="Can Finish",
+        compute="_compute_policy"
+    )
+    restart_ok = fields.Boolean(
+        string="Can Restart",
+        compute="_compute_policy"
+    )
+
+
     # Log Fields
     confirm_date = fields.Datetime(
         string="Confirm Date",
@@ -308,7 +341,7 @@ class ConsingnemtOrder(models.Model):
 
     @api.model
     def create(self, values):
-        _super = super(ConsingnemtOrder, self)
+        _super = super(ConsignmentOrder, self)
         result = _super.create(values)
         sequence = result._create_sequence()
         result.write({
@@ -323,5 +356,5 @@ class ConsingnemtOrder(models.Model):
             if document.state != "draft":
                 if not self.env.context.get("force_unlink", False):
                     raise UserError(strWarning)
-        _super = super(ConsingnemtOrder, self)
+        _super = super(ConsignmentOrder, self)
         _super.unlink()
