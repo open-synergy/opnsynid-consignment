@@ -83,3 +83,11 @@ class ConsignmentType(models.Model):
         column1="type_id",
         column2="group_id",
     )
+
+    consignment_terminate_grp_ids = fields.Many2many(
+        string="Allow To Terminate Consignment",
+        comodel_name="res.groups",
+        relation="rel_consignment_type_terminate",
+        column1="type_id",
+        column2="group_id",
+    )

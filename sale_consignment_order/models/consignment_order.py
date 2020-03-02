@@ -14,6 +14,7 @@ class ConsignmentOrder(models.Model):
        "base.sequence_document",
        "base.workflow_policy_object",
        "base.cancel.reason_common",
+       "base.terminate.reason_common",
     ]
 
     # membuat nilai default untuk yang bersifat tdk konstan
@@ -124,37 +125,38 @@ class ConsignmentOrder(models.Model):
         },
     )
     state = fields.Selection([
-            ('draft', 'Draft'),
-            ('confirm', 'Waiting For Approval'),
-            ('approve', 'Ready to Process'),
-            ('open', 'In Progress'),
-            ('cancel', 'Cancelled'),
-            ('done', 'Done'),
+            ("draft", "Draft"),
+            ("confirm", "Waiting For Approval"),
+            ("approve", "Ready to Process"),
+            ("open", "In Progress"),
+            ("cancel", "Cancelled"),
+            ("done", "Done"),
+            ("terminate", "Terminated"),
             ],
-            string='Status',
+            string="Status",
             readonly=True,
             copy=False,
             help="Gives the status of the consignment order.",
             select=True,
-            default='draft',
+            default="draft",
     )
 
     amount_untaxed = fields.Float(
         string="Amount Untaxed",
         store=True,
-        compute='_compute_amount_total'
+        compute="_compute_amount_total"
     )
 
     amount_tax = fields.Float(
         string="Amount Taxed",
         store=True,
-        compute='_compute_amount_total'
+        compute="_compute_amount_total"
     )
 
     amount_total = fields.Float(
         string="Amount Total",
         store=True,
-        compute='_compute_amount_total'
+        compute="_compute_amount_total"
     )
 
     detail_ids = fields.One2many(
@@ -193,6 +195,10 @@ class ConsignmentOrder(models.Model):
     )
     restart_ok = fields.Boolean(
         string="Can Restart",
+        compute="_compute_policy"
+    )
+    terminate_ok = fields.Boolean(
+        string="Can Terminate",
         compute="_compute_policy"
     )
 
@@ -252,6 +258,15 @@ class ConsignmentOrder(models.Model):
         comodel_name="res.users",
         readonly=True,
     )
+    terminate_date = fields.Datetime(
+        string="Terminate Date",
+        readonly=True,
+    )
+    terminate_user_id = fields.Many2one(
+        string="Terminate By",
+        comodel_name="res.users",
+        readonly=True,
+    )
 
     # merubah pricelist_id berdasarkan partner
     @api.onchange(
@@ -269,6 +284,13 @@ class ConsignmentOrder(models.Model):
         for document in self:
             document.detail_ids._compute_amount()
             document.write(document._prepare_confirm_data())
+
+    # fungsi saat menekan tombol terminate dilakukan
+    # perubahan data state user dan tanggal dengan menjalankan fungsi
+    @api.multi
+    def action_terminate(self):
+        for document in self:
+            document.write(document._prepare_terminate_data())
 
     # fungsi saat menekan tombol approve dilakukan
     # perubahan data state user dan tanggal dengan menuliskan statement langsung
@@ -325,6 +347,17 @@ class ConsignmentOrder(models.Model):
             "state": "confirm",
             "confirm_date": fields.Datetime.now(),
             "confirm_user_id": self.env.user.id,
+        }
+        return result
+
+    # fungsi perubahan data state user dan tanggal -- terminate
+    @api.multi
+    def _prepare_terminate_data(self):
+        self.ensure_one()
+        result = {
+            "state": "terminate",
+            "terminate_date": fields.Datetime.now(),
+            "terminate_user_id": self.env.user.id,
         }
         return result
 
