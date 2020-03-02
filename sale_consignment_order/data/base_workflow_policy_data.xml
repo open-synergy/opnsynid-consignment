@@ -40,7 +40,11 @@
         <field name="field_id" search="[('model_id.model','=','consignment.order'),('name','=','restart_ok')]"/>
         <field name="python_code">result = document.type_id.consignment_restart_grp_ids.ids</field>
     </record>
-
+    <record id="base_workflow_line_consignment_order_terminate" model="base.workflow_policy_line">
+        <field name="workflow_id" ref="base_workflow_consignment_order"/>
+        <field name="field_id" search="[('model_id.model','=','consignment.order'),('name','=','terminate_ok')]"/>
+        <field name="python_code">result = document.type_id.consignment_terminate_grp_ids.ids</field>
+    </record>
 
 </data>
 </openerp>
