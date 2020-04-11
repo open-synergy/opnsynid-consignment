@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api
-#import openerp.addons.decimal_precision as dp
+
 
 class ConsingnemtOrderLine(models.Model):
     _name = "consignment.order_line"
@@ -21,8 +21,8 @@ class ConsingnemtOrderLine(models.Model):
         "price_unit",
         "quantity",
         "tax_ids",
-#        "tax_ids.amount",
     )
+
     def _compute_amount(self):
         for document in self:
             document.price_subtotal = document.price_unit * document.quantity

@@ -6,15 +6,16 @@ from openerp import models, fields, api
 from openerp.exceptions import Warning as UserError
 # import odoo.addons.decimal_precision as dp
 
+
 class ConsignmentOrder(models.Model):
     _name = "consignment.order"
     _description = "Consignment Order"
     _inherit = [
-       "mail.thread",
-       "base.sequence_document",
-       "base.workflow_policy_object",
-       "base.cancel.reason_common",
-       "base.terminate.reason_common",
+        "mail.thread",
+        "base.sequence_document",
+        "base.workflow_policy_object",
+        "base.cancel.reason_common",
+        "base.terminate.reason_common",
     ]
 
     # membuat nilai default untuk yang bersifat tdk konstan
@@ -58,6 +59,7 @@ class ConsignmentOrder(models.Model):
             ],
         },
     )
+
     partner_id = fields.Many2one(
         string="Customer",
         comodel_name="res.partner",
@@ -125,20 +127,20 @@ class ConsignmentOrder(models.Model):
         },
     )
     state = fields.Selection([
-            ("draft", "Draft"),
-            ("confirm", "Waiting For Approval"),
-            ("approve", "Ready to Process"),
-            ("open", "In Progress"),
-            ("cancel", "Cancelled"),
-            ("done", "Done"),
-            ("terminate", "Terminated"),
-            ],
-            string="Status",
-            readonly=True,
-            copy=False,
-            help="Gives the status of the consignment order.",
-            select=True,
-            default="draft",
+        ("draft", "Draft"),
+        ("confirm", "Waiting For Approval"),
+        ("approve", "Ready to Process"),
+        ("open", "In Progress"),
+        ("cancel", "Cancelled"),
+        ("done", "Done"),
+        ("terminate", "Terminated"),
+    ],
+        string="Status",
+        readonly=True,
+        copy=False,
+        help="Gives the status of the consignment order.",
+        select=True,
+        default="draft",
     )
 
     amount_untaxed = fields.Float(

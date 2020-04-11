@@ -2,7 +2,8 @@
 # Copyright 2019 OpenSynergy Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields
+
 
 class ResPartner(models.Model):
     _name = "res.partner"
@@ -13,5 +14,3 @@ class ResPartner(models.Model):
         comodel_name="product.pricelist",
         company_dependent=True,
     )
-
-    
