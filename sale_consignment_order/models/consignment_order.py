@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-# Copyright 2019 OpenSynergy Indonesia
+# Copyright 2020 OpenSynergy Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields, api
 from openerp.exceptions import Warning as UserError
-# import odoo.addons.decimal_precision as dp
 
 
 class ConsignmentOrder(models.Model):
@@ -136,10 +135,6 @@ class ConsignmentOrder(models.Model):
         ("terminate", "Terminated"),
     ],
         string="Status",
-        readonly=True,
-        copy=False,
-        help="Gives the status of the consignment order.",
-        select=True,
         default="draft",
     )
 
@@ -299,47 +294,92 @@ class ConsignmentOrder(models.Model):
     @api.multi
     def action_approve(self):
         for document in self:
-            document.write({"state": "approve"})
-            document.write({"approve_date": fields.Datetime.now()})
-            document.write({"approve_user_id": self.env.user.id})
+            document.write(document._prepare_approve_data())
 
     @api.multi
     def action_open(self):
         for document in self:
-            document.write({"state": "open"})
-            document.write({"open_date": fields.Datetime.now()})
-            document.write({"open_user_id": self.env.user.id})
+            document.write(document._prepare_open_data())
 
     @api.multi
     def action_done(self):
         for document in self:
-            document.write({"state": "done"})
-            document.write({"done_date": fields.Datetime.now()})
-            document.write({"done_user_id": self.env.user.id})
+            document.write(document._prepare_done_data())
 
     @api.multi
     def action_cancel(self):
         for document in self:
-            document.write({"state": "cancel"})
-            document.write({"cancel_date": fields.Datetime.now()})
-            document.write({"cancel_user_id": self.env.user.id})
+            document.write(document._prepare_cancel_data())
 
     @api.multi
     def action_restart(self):
         for document in self:
-            document.write({"state": "draft"})
-            document.write({"restart_date": fields.Datetime.now()})
-            document.write({"restart_user_id": self.env.user.id})
-            document.write({"confirm_date": False})
-            document.write({"confirm_user_id": False})
-            document.write({"approve_date": False})
-            document.write({"approve_user_id": False})
-            document.write({"open_date": False})
-            document.write({"open_user_id": False})
-            document.write({"done_date": False})
-            document.write({"done_user_id": False})
-            document.write({"cancel_date": False})
-            document.write({"cancel_user_id": False})
+            document.write(document._prepare_restart_data())
+
+    # fungsi perubahan data state user dan tanggal -- approve
+    @api.multi
+    def _prepare_approve_data(self):
+        self.ensure_one()
+        result = {
+            "state": "approve",
+            "approve_date": fields.Datetime.now(),
+            "approve_user_id": self.env.user.id,
+        }
+        return result
+
+    # fungsi perubahan data state user dan tanggal -- open
+    @api.multi
+    def _prepare_open_data(self):
+        self.ensure_one()
+        result = {
+            "state": "open",
+            "open_date": fields.Datetime.now(),
+            "open_user_id": self.env.user.id,
+        }
+        return result
+
+    # fungsi perubahan data state user dan tanggal -- done
+    @api.multi
+    def _prepare_done_data(self):
+        self.ensure_one()
+        result = {
+            "state": "done",
+            "done_date": fields.Datetime.now(),
+            "done_user_id": self.env.user.id,
+        }
+        return result
+
+    # fungsi perubahan data state user dan tanggal -- done
+    @api.multi
+    def _prepare_cancel_data(self):
+        self.ensure_one()
+        result = {
+            "state": "cancel",
+            "cancel_date": fields.Datetime.now(),
+            "cancel_user_id": self.env.user.id,
+        }
+        return result
+
+    # fungsi perubahan data state user dan tanggal -- restart
+    @api.multi
+    def _prepare_restart_data(self):
+        self.ensure_one()
+        result = {
+            "state": "draft",
+            "restart_date": fields.Datetime.now(),
+            "restart_user_id": self.env.user.id,
+            "confirm_date": False,
+            "confirm_user_id": False,
+            "approve_date": False,
+            "approve_user_id": False,
+            "open_date": False,
+            "open_user_id": False,
+            "done_date": False,
+            "done_user_id": False,
+            "cancel_date": False,
+            "cancel_user_id": False,
+        }
+        return result
 
     # fungsi perubahan data state user dan tanggal -- confirm
     @api.multi
