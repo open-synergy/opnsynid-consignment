@@ -199,7 +199,6 @@ class ConsignmentOrder(models.Model):
         compute="_compute_policy"
     )
 
-
     # Log Fields
     confirm_date = fields.Datetime(
         string="Confirm Date",
@@ -279,7 +278,6 @@ class ConsignmentOrder(models.Model):
     @api.multi
     def action_confirm(self):
         for document in self:
-            document.detail_ids._compute_amount()
             document.write(document._prepare_confirm_data())
 
     # fungsi saat menekan tombol terminate dilakukan
