@@ -71,7 +71,7 @@ class ConsignmentOrder(models.Model):
             ],
         },
     )
-    date_order = fields.Datetime(
+    date_order = fields.Date(
         string="Order Date",
         required=True,
         readonly=True,
