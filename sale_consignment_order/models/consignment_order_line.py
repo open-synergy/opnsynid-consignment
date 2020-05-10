@@ -63,6 +63,7 @@ class ConsingnemtOrderLine(models.Model):
         string='Product',
         comodel_name='product.product',
         domain=[('sale_ok', '=', True)],
+        required=True,
         change_default=True,
         ondelete='restrict',
     )
@@ -77,6 +78,7 @@ class ConsingnemtOrderLine(models.Model):
     uom_id = fields.Many2one(
         string="UoM",
         comodel_name="product.uom",
+        required=True,
     )
     tax_ids = fields.Many2many(
         string="Tax",
@@ -98,6 +100,7 @@ class ConsingnemtOrderLine(models.Model):
     pricelist_id = fields.Many2one(
         string="Price List",
         comodel_name="product.pricelist",
+        required=True,
     )
     date = fields.Date(
         string="Date",
