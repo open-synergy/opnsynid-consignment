@@ -65,51 +65,49 @@
                           </group>
                           <group name="header_1_2" colspan="1" col="2">
                               <field name="type_id"/>
-                              <field name="pricelist_id"/>
+                              <field name="pricelist_id" domain="[('type','=','consignment.order')]"/>
                               <field name="warehouse_id"/>
                           </group>
                       </group>
                       <notebook>
                           <page name="order_detail" string="Detail Order">
-                            <sheet>
-<!--                            <field name="detail_ids" colspan="4" nolabel="1">  -->
-                                <field name="detail_ids" context="{'default_pricelist_id':pricelist_id, 'default_date':date_order}" colspan="1" col="2" nolabel="1">
-                                    <tree string="Order Detail">
-                                        <field name="pricelist_id"/>
-                                        <field name="date"/>
-                                        <field name="product_id"/>
-                                        <field name="quantity"/>
-                                        <field name="uom_id"/>
-                                        <field name="price_unit"/>
-                                        <field name="tax_ids" widget="many2many_tags"/>
-                                        <field name="price_subtotal"/>
-                                        <field name="tax_subtotal"/>
-                                    </tree>
-                                    <form string="Order Detail">
-                                        <group name="group_order_detail" colspan="2" col="2">
-                                            <field name="pricelist_id"/>
-                                            <field name="date"/>
-                                            <field name="product_id"/>
-                                            <field name="allowed_uom_ids" widget="many2many_tags" invisible="1"/>
-                                            <label for="quantity"/>
-                                            <div>
-                                                <field name="quantity" class="oe_inline"/>
-                                                <!-- <field name="uom_id" class="oe_inline"/> -->
-                                                <field name="uom_id" domain="[('id','in',allowed_uom_ids[0][2])]" class="oe_inline"/>
-                                            </div>
-                                            <field name="price_unit"/>
-                                            <field name="tax_ids"/>
-                                            <field name="price_subtotal"/>
-                                            <field name="tax_subtotal"/>
-                                        </group>
-                                    </form>
-                                </field>
-                                <group name="order total" class="oe_subtotal_footer oe_right">
-                                    <field name="amount_untaxed" string="Sub Total"/>
-                                    <field name="amount_tax" string="Tax"/>
-                                    <field name="amount_total" string = "Total" class="oe_subtotal_footer_separator"/>
-                                </group>
-                            </sheet>
+                              <sheet>
+                                  <field name="detail_ids" context="{'default_pricelist_id':pricelist_id, 'default_date':date_order}" colspan="1" col="2" nolabel="1">
+                                      <tree string="Order Detail">
+                                          <field name="pricelist_id"/>
+                                          <field name="date"/>
+                                          <field name="product_id"/>
+                                          <field name="quantity"/>
+                                          <field name="uom_id"/>
+                                          <field name="price_unit"/>
+                                          <field name="tax_ids" widget="many2many_tags"/>
+                                          <field name="price_subtotal"/>
+                                          <field name="tax_subtotal"/>
+                                      </tree>
+                                      <form string="Order Detail">
+                                          <group name="group_order_detail" colspan="2" col="2">
+                                              <field name="pricelist_id" domain="[('type','=','consignment.order')]"/>
+                                              <field name="date"/>
+                                              <field name="product_id"/>
+                                              <field name="allowed_uom_ids" widget="many2many_tags" invisible="1"/>
+                                              <label for="quantity"/>
+                                              <div>
+                                                  <field name="quantity" class="oe_inline"/>
+                                                  <field name="uom_id" domain="[('id','in',allowed_uom_ids[0][2])]" class="oe_inline"/>
+                                              </div>
+                                              <field name="price_unit"/>
+                                              <field name="tax_ids"/>
+                                              <field name="price_subtotal"/>
+                                              <field name="tax_subtotal"/>
+                                          </group>
+                                      </form>
+                                  </field>
+                                  <group name="order total" class="oe_subtotal_footer oe_right">
+                                      <field name="amount_untaxed" string="Sub Total"/>
+                                      <field name="amount_tax" string="Tax"/>
+                                      <field name="amount_total" string = "Total" class="oe_subtotal_footer_separator"/>
+                                  </group>
+                              </sheet>
                           </page>
                           <page name="note" string="Note">
                               <field name="note"/>

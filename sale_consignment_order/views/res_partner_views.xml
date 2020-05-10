@@ -14,7 +14,7 @@
             <xpath expr="//notebook" position="inside">
                 <page name="consignment" string="Consignment">
                     <group name="consignment" colspan="4" col="2">
-                        <field name="default_sale_consignment_pricelist_id"/>
+                        <field name="default_sale_consignment_pricelist_id" domain="[('type','=','consignment.order')]"/>
                     </group>
                 </page>
             </xpath>

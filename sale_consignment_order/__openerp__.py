@@ -24,6 +24,7 @@
         "data/base_workflow_policy_data.xml",
         "data/base_cancel_reason_configurator_data.xml",
         "data/base_terminate_reason_configurator_data.xml",
+        "data/product_pricelist_type_data.xml",
         "views/consignment_type_views.xml",
         "views/consignment_order_views.xml",
         "views/res_partner_views.xml",
