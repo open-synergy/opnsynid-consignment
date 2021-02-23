@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 OpenSynergy Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class ConsingnemtOrderLine(models.Model):
@@ -27,7 +26,7 @@ class ConsingnemtOrderLine(models.Model):
             document.price_subtotal = document.price_unit * document.quantity
             tax_subtotal = 0.0
             for line in document.tax_ids:
-                tax_subtotal += (document.price_subtotal * line.amount)
+                tax_subtotal += document.price_subtotal * line.amount
             document.tax_subtotal = tax_subtotal
 
     # @api.multi
@@ -60,19 +59,19 @@ class ConsingnemtOrderLine(models.Model):
         ondelete="cascade",
     )
     product_id = fields.Many2one(
-        string='Product',
-        comodel_name='product.product',
-        domain=[('sale_ok', '=', True)],
+        string="Product",
+        comodel_name="product.product",
+        domain=[("sale_ok", "=", True)],
         required=True,
         change_default=True,
-        ondelete='restrict',
+        ondelete="restrict",
     )
     price_unit = fields.Float(
-        string='Unit Price',
+        string="Unit Price",
         required=True,
     )
     quantity = fields.Float(
-        string='Quantity',
+        string="Quantity",
         required=True,
     )
     uom_id = fields.Many2one(
@@ -134,12 +133,12 @@ class ConsingnemtOrderLine(models.Model):
         obj_uom = self.env["product.uom"]
         qty = 0.0
 
-        ctx={}
+        ctx = {}
         if self.date:
             ctx.update({"date": self.date})
 
         if self.uom_id:
-            qty=obj_uom._compute_qty_obj(
+            qty = obj_uom._compute_qty_obj(
                 from_unit=self.uom_id,
                 qty=self.quantity,
                 to_unit=self.product_id.uom_id,

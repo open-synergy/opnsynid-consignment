@@ -1,20 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2019 OpenSynergy Indonesia
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <openerp>
 <data>
 
 <record id="res_partner_view_form" model="ir.ui.view">
     <field name="name">res.partner form</field>
     <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="inherit_id" ref="base.view_partner_form" />
     <field name="arch" type="xml">
         <data>
             <xpath expr="//notebook" position="inside">
                 <page name="consignment" string="Consignment">
                     <group name="consignment" colspan="4" col="2">
-                        <field name="default_sale_consignment_pricelist_id" domain="[('type','=','consignment.order')]"/>
+                        <field
+                                    name="default_sale_consignment_pricelist_id"
+                                    domain="[('type','=','consignment.order')]"
+                                />
                     </group>
                 </page>
             </xpath>

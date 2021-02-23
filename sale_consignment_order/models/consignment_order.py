@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2020 OpenSynergy Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
 
 
@@ -64,7 +63,7 @@ class ConsignmentOrder(models.Model):
         comodel_name="res.partner",
         required=True,
         readonly=True,
-        ondelete="restrict", # pilihan: resttrict, cascade, set null
+        ondelete="restrict",  # pilihan: resttrict, cascade, set null
         states={
             "draft": [
                 ("readonly", False),
@@ -125,35 +124,30 @@ class ConsignmentOrder(models.Model):
             ],
         },
     )
-    state = fields.Selection([
-        ("draft", "Draft"),
-        ("confirm", "Waiting For Approval"),
-        ("approve", "Ready to Process"),
-        ("open", "In Progress"),
-        ("cancel", "Cancelled"),
-        ("done", "Done"),
-        ("terminate", "Terminated"),
-    ],
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("confirm", "Waiting For Approval"),
+            ("approve", "Ready to Process"),
+            ("open", "In Progress"),
+            ("cancel", "Cancelled"),
+            ("done", "Done"),
+            ("terminate", "Terminated"),
+        ],
         string="Status",
         default="draft",
     )
 
     amount_untaxed = fields.Float(
-        string="Amount Untaxed",
-        store=True,
-        compute="_compute_amount_total"
+        string="Amount Untaxed", store=True, compute="_compute_amount_total"
     )
 
     amount_tax = fields.Float(
-        string="Amount Taxed",
-        store=True,
-        compute="_compute_amount_total"
+        string="Amount Taxed", store=True, compute="_compute_amount_total"
     )
 
     amount_total = fields.Float(
-        string="Amount Total",
-        store=True,
-        compute="_compute_amount_total"
+        string="Amount Total", store=True, compute="_compute_amount_total"
     )
 
     detail_ids = fields.One2many(
@@ -170,34 +164,13 @@ class ConsignmentOrder(models.Model):
     )
 
     # Policy Fields
-    confirm_ok = fields.Boolean(
-        string="Can Confirm",
-        compute="_compute_policy"
-    )
-    approve_ok = fields.Boolean(
-        string="Can Approve",
-        compute="_compute_policy"
-    )
-    open_ok = fields.Boolean(
-        string="Can Open",
-        compute="_compute_policy"
-    )
-    cancel_ok = fields.Boolean(
-        string="Can Cancel",
-        compute="_compute_policy"
-    )
-    done_ok = fields.Boolean(
-        string="Can Finish",
-        compute="_compute_policy"
-    )
-    restart_ok = fields.Boolean(
-        string="Can Restart",
-        compute="_compute_policy"
-    )
-    terminate_ok = fields.Boolean(
-        string="Can Terminate",
-        compute="_compute_policy"
-    )
+    confirm_ok = fields.Boolean(string="Can Confirm", compute="_compute_policy")
+    approve_ok = fields.Boolean(string="Can Approve", compute="_compute_policy")
+    open_ok = fields.Boolean(string="Can Open", compute="_compute_policy")
+    cancel_ok = fields.Boolean(string="Can Cancel", compute="_compute_policy")
+    done_ok = fields.Boolean(string="Can Finish", compute="_compute_policy")
+    restart_ok = fields.Boolean(string="Can Restart", compute="_compute_policy")
+    terminate_ok = fields.Boolean(string="Can Terminate", compute="_compute_policy")
 
     # Log Fields
     confirm_date = fields.Datetime(
@@ -410,16 +383,18 @@ class ConsignmentOrder(models.Model):
     def _check_document_number(self):
         for document in self:
             if document.name == "/" and document.state != "draft":
-                raise UserError("Error")
+                raise UserError(_("Error"))
 
     @api.model
     def create(self, values):
         _super = super(ConsignmentOrder, self)
         result = _super.create(values)
         sequence = result._create_sequence()
-        result.write({
-            "name": sequence,
-        })
+        result.write(
+            {
+                "name": sequence,
+            }
+        )
         return result
 
     @api.multi

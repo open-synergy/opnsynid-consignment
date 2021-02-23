@@ -1,36 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 OpenSynergy Indonesia
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <openerp>
 <data>
 
-<menuitem
-    id="consignment_root_menu"
-    name="Consignment"
-    sequence="30"
-    />
+<menuitem id="consignment_root_menu" name="Consignment" sequence="30" />
 
 <menuitem
-    id="consignment_order_menu"
-    name="Order"
-    parent="consignment_root_menu"
-    sequence="1"
-    />
+            id="consignment_order_menu"
+            name="Order"
+            parent="consignment_root_menu"
+            sequence="1"
+        />
 
 <menuitem
-    id="consignment_report_menu"
-    name="Report"
-    parent="consignment_root_menu"
-    sequence="98"
-    />
+            id="consignment_report_menu"
+            name="Report"
+            parent="consignment_root_menu"
+            sequence="98"
+        />
 
 <menuitem
-    id="consignment_configuration_menu"
-    name="Configuration"
-    parent="consignment_root_menu"
-    sequence="99"
-    />
+            id="consignment_configuration_menu"
+            name="Configuration"
+            parent="consignment_root_menu"
+            sequence="99"
+        />
 
 </data>
 </openerp>
